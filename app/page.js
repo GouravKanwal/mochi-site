@@ -3,49 +3,28 @@
 import { useState } from 'react';
 
 export default function Home() {
-  const [step, setStep] = useState('form'); // form | code | done
+  const [step, setStep] = useState('form'); // form | done
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [consent, setConsent] = useState(false);
-  const [code, setCode] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  const [hint, setHint] = useState('');
 
-  async function requestCode(e) {
+  async function submit(e) {
     e.preventDefault();
     setError('');
     setBusy(true);
     try {
-      const r = await fetch('/api/request-code', {
+      const r = await fetch('/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, consent }),
       });
       const data = await r.json();
       if (!r.ok) throw new Error(data.error || 'Something went wrong.');
-      setStep('code');
-      setHint(data.devCode ? `Dev mode: your code is ${data.devCode}` : '');
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function verifyCode(e) {
-    e.preventDefault();
-    setError('');
-    setBusy(true);
-    try {
-      const r = await fetch('/api/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code }),
-      });
-      const data = await r.json();
-      if (!r.ok) throw new Error(data.error || 'Something went wrong.');
       setStep('done');
+      // Start the download automatically.
+      setTimeout(() => { window.location.href = '/api/download'; }, 400);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -96,48 +75,26 @@ export default function Home() {
 
       <section id="get" className="gate">
         {step === 'form' && (
-          <form onSubmit={requestCode}>
+          <form onSubmit={submit}>
             <h2>Get Mochi</h2>
-            <p className="sub">We'll email you a 6-digit code to unlock the download.</p>
+            <p className="sub">Just your name and email, and the download starts right away.</p>
             <label htmlFor="name">Name</label>
             <input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
             <label htmlFor="email">Email</label>
             <input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" />
             <label className="consent">
               <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
-              <span>I agree to receive a verification email and to the <a href="/privacy">privacy note</a>.</span>
+              <span>I agree to the <a href="/privacy">privacy note</a> and to receiving occasional Mochi updates.</span>
             </label>
             {error && <div className="msg err">{error}</div>}
-            <button className="primary" disabled={busy}>{busy ? 'Sending…' : 'Email me a code'}</button>
-          </form>
-        )}
-
-        {step === 'code' && (
-          <form onSubmit={verifyCode}>
-            <h2>Enter your code</h2>
-            <p className="sub">We sent a 6-digit code to <b>{email}</b>. It expires in 10 minutes.</p>
-            <input
-              className="code-input"
-              inputMode="numeric"
-              maxLength={6}
-              value={code}
-              onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-              placeholder="••••••"
-              autoFocus
-            />
-            {hint && <div className="msg ok">{hint}</div>}
-            {error && <div className="msg err">{error}</div>}
-            <button className="primary" disabled={busy || code.length < 6}>{busy ? 'Checking…' : 'Verify & unlock'}</button>
-            <button type="button" className="link" onClick={() => { setStep('form'); setCode(''); setError(''); }}>
-              ← Use a different email
-            </button>
+            <button className="primary" disabled={busy}>{busy ? 'Starting…' : 'Download Mochi for macOS'}</button>
           </form>
         )}
 
         {step === 'done' && (
           <div>
-            <h2>You're in! 🎉</h2>
-            <p className="sub">Thanks{name ? `, ${name}` : ''}. Your download is ready.</p>
+            <h2>Thanks{name ? `, ${name}` : ''}! 🎉</h2>
+            <p className="sub">Your download should start automatically. If it doesn't:</p>
             <a className="download-btn" href="/api/download">Download Mochi for macOS</a>
             <p className="note">
               It's an Apple-Silicon (arm64) app. Because it isn't from the App Store, the first
@@ -149,8 +106,7 @@ export default function Home() {
       </section>
 
       <p className="note" style={{ textAlign: 'center', maxWidth: 560, margin: '28px auto 0' }}>
-        We only use your email to send the download code and occasional updates about Mochi.
-        Cat artwork by <b>Mattz Art</b>.
+        We only use your details to let you know about Mochi updates. Cat artwork by <b>Mattz Art</b>.
       </p>
 
       <div className="foot">
