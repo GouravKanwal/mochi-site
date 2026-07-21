@@ -110,7 +110,8 @@ export default function Home() {
       </p>
 
       <div className="foot">
-        <a href="/privacy">Privacy</a> · Made with 🐱
+        <a href="/privacy">Privacy</a> · Made with 🐱 · Built by{' '}
+        <a href="https://gouravkanwal.com" target="_blank" rel="noopener noreferrer">GouravKanwal.com</a>
       </div>
     </div>
   );

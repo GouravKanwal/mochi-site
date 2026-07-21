@@ -27,7 +27,10 @@ export default function Privacy() {
         we'll take care of it.</p>
 
       <h3>Contact</h3>
-      <p>Reach out at <b>your@email.com</b>.</p>
+      <p>Reach out at <a href="mailto:Me@gouravkanwal.com">Me@gouravkanwal.com</a>.</p>
+      <p style={{ color: 'var(--muted)', marginTop: 24 }}>
+        Built by <a href="https://gouravkanwal.com" target="_blank" rel="noopener noreferrer">GouravKanwal.com</a>
+      </p>
 
       <p style={{ marginTop: 32 }}><a href="/">← Back</a></p>
     </div>
