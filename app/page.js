@@ -44,9 +44,10 @@ export default function Home() {
           <span className="badge">macOS · free · pixel desktop pet</span>
           <h1>A pixel cat that keeps you on track.</h1>
           <p className="lede">
-            Mochi lives on your desktop, reacts to your mouse, keyboard and scrolls,
-            nudges you to take breaks, runs a Pomodoro timer, and cheers on your coding
-            agent while it works.
+            Mochi lives on your desktop — she roams around, reacts to your mouse,
+            keyboard and scrolls, keeps you off distracting apps, runs a Pomodoro
+            timer, tracks your focus streaks, and cheers on your coding agent while
+            it works.
           </p>
           <a className="download-btn" href="#get">Get Mochi ↓</a>
         </div>
@@ -62,9 +63,24 @@ export default function Home() {
           <p>Turns to face your cursor, dashes on fast moves, paws along as you type, trots when you scroll.</p>
         </div>
         <div className="feature">
+          <div className="emoji">🐾</div>
+          <h3>Roams &amp; pounces</h3>
+          <p>Wanders your whole screen on her own, and every so often chases your cursor and pounces on it.</p>
+        </div>
+        <div className="feature">
+          <div className="emoji">🚫</div>
+          <h3>Distraction guard</h3>
+          <p>Name your time-sink apps and she glares and grumbles whenever one is in front of you.</p>
+        </div>
+        <div className="feature">
           <div className="emoji">⏱️</div>
           <h3>Focus &amp; reminders</h3>
           <p>A Pomodoro timer, stretch nudges, and your own custom reminders with pop-up bubbles.</p>
+        </div>
+        <div className="feature">
+          <div className="emoji">📊</div>
+          <h3>Stats &amp; streaks</h3>
+          <p>Tracks your daily focus sessions and active time, and keeps your streak going in the menu bar.</p>
         </div>
         <div className="feature">
           <div className="emoji">🤖</div>
