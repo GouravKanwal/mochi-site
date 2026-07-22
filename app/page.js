@@ -10,6 +10,35 @@ export default function Home() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
+  // Suggestion box
+  const [sMsg, setSMsg] = useState('');
+  const [sEmail, setSEmail] = useState('');
+  const [sBusy, setSBusy] = useState(false);
+  const [sSent, setSSent] = useState(false);
+  const [sErr, setSErr] = useState('');
+
+  async function submitSuggestion(e) {
+    e.preventDefault();
+    setSErr('');
+    setSBusy(true);
+    try {
+      const r = await fetch('/api/suggest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: sMsg, email: sEmail }),
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || 'Something went wrong.');
+      setSSent(true);
+      setSMsg('');
+      setSEmail('');
+    } catch (err) {
+      setSErr(err.message);
+    } finally {
+      setSBusy(false);
+    }
+  }
+
   async function submit(e) {
     e.preventDefault();
     setError('');
@@ -117,6 +146,37 @@ export default function Home() {
               time you may need to <b>right-click the app → Open</b>. Then grant Accessibility
               permission so the cat can react to your mouse and keyboard.
             </p>
+          </div>
+        )}
+      </section>
+
+      <section className="gate" style={{ marginTop: 40 }}>
+        {!sSent ? (
+          <form onSubmit={submitSuggestion}>
+            <h2>What should Mochi do next? 🐾</h2>
+            <p className="sub">Got an idea or a bug? Tell us — we read every one.</p>
+            <label htmlFor="sMsg">Your suggestion</label>
+            <textarea
+              id="sMsg"
+              className="suggest-area"
+              value={sMsg}
+              onChange={(e) => setSMsg(e.target.value)}
+              placeholder="I wish Mochi could…"
+              rows={4}
+              required
+            />
+            <label htmlFor="sEmail">Email (optional, if you want a reply)</label>
+            <input id="sEmail" type="email" value={sEmail} onChange={(e) => setSEmail(e.target.value)} placeholder="you@example.com" />
+            {sErr && <div className="msg err">{sErr}</div>}
+            <button className="primary" disabled={sBusy || sMsg.trim().length < 3}>
+              {sBusy ? 'Sending…' : 'Send suggestion'}
+            </button>
+          </form>
+        ) : (
+          <div>
+            <h2>Thank you! 🐱</h2>
+            <p className="sub">Your suggestion landed. Mochi appreciates you.</p>
+            <button type="button" className="link" onClick={() => setSSent(false)}>Send another</button>
           </div>
         )}
       </section>
