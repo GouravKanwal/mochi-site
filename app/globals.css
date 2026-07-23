@@ -81,6 +81,33 @@ img { max-width: 100%; }
 }
 .heroArt img { image-rendering: pixelated; width: 220px; }
 
+.mochi-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.mochi-hero .hi {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 8px rgba(120, 60, 10, 0.35);
+}
+.mochi-walk {
+  width: 208px;   /* 80px frame * 2.6 */
+  height: 166px;  /* 64px frame * 2.6 */
+  background-image: url(/mochi-walk.png);
+  background-repeat: no-repeat;
+  background-size: 2496px 166px; /* whole 12-frame sheet, scaled */
+  image-rendering: pixelated;
+  animation: mochi-walk 1.1s steps(12) infinite;
+}
+@keyframes mochi-walk {
+  from { background-position: 0 0; }
+  to { background-position: -2496px 0; }
+}
+
 .features {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

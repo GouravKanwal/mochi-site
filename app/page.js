@@ -81,7 +81,10 @@ export default function Home() {
           <a className="download-btn" href="#get">Get Mochi ↓</a>
         </div>
         <div className="heroArt">
-          <img src="/preview.gif" alt="Mochi cat animations" />
+          <div className="mochi-hero">
+            <div className="hi">Say hi to Mochi 👋</div>
+            <div className="mochi-walk" role="img" aria-label="Mochi the pixel cat, walking"></div>
+          </div>
         </div>
       </section>
 
